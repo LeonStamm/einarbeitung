@@ -1,0 +1,1165 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dein erster Tag bei VETO-Fiber</title>
+<style>
+:root{
+  --sky:#E9EFF5;      /* Hintergrund außerhalb des Geräts */
+  --screen:#F7F9FB;   /* Display */
+  --ink:#15233B;      /* Text */
+  --muted:#5B6B82;
+  --line:#D5DEE8;
+  --funk:#2F6FED;     /* Mobilfunk: Funkwellen-Blau */
+  --kupfer:#C98A12;   /* Festnetz: Kupfer */
+  --faser:#0E9E8E;    /* Transportnetz: Glasfaser-Türkis */
+  --orga:#7A4FD6;     /* Organisation */
+  --mission:#15233B;
+  --ok:#1E8E4E; --ok-bg:#E3F4EA;
+  --bad:#C2412D; --bad-bg:#FBE9E5;
+  --radius-device:44px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--sky);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--funk);outline-offset:2px}
+
+/* Gerät: auf großen Bildschirmen als Handy, auf dem Handy selbst vollflächig */
+.device{position:relative;margin:0 auto;height:100%;max-width:100%;background:var(--screen);display:flex;flex-direction:column;overflow:hidden}
+@media (min-width:600px) and (min-height:760px){
+  body{display:grid;place-items:center;padding:24px}
+  .device{width:400px;height:min(840px,calc(100vh - 48px));border-radius:var(--radius-device);border:10px solid var(--ink);box-shadow:0 30px 60px -20px rgba(21,35,59,.35)}
+}
+
+/* Statusleiste: Signalbalken = Fortschritt */
+.status{display:flex;align-items:center;justify-content:space-between;padding:12px 22px 8px;font-size:14px;font-weight:600;flex:none}
+.status .right{display:flex;align-items:center;gap:10px}
+.bars{display:flex;align-items:flex-end;gap:3px;height:14px}
+.bars i{display:block;width:4px;border-radius:1px;background:var(--line)}
+.bars i:nth-child(1){height:5px}.bars i:nth-child(2){height:8px}.bars i:nth-child(3){height:11px}.bars i:nth-child(4){height:14px}
+.bars i.on{background:var(--ink)}
+.pts{font-variant-numeric:tabular-nums}
+
+main{flex:1;overflow-y:auto;padding:8px 20px 28px;-webkit-overflow-scrolling:touch}
+.screen{animation:in .25s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.screen{animation:none}.fill{transition:none!important}}
+
+h1{font-size:28px;line-height:1.15;font-weight:750;letter-spacing:-.02em}
+h2{font-size:22px;line-height:1.2;font-weight:700;letter-spacing:-.01em}
+p+p{margin-top:.75em}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+
+/* Buttons */
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:15px 18px;font-weight:650;font-size:16px;background:var(--ink);color:#fff;cursor:pointer;text-align:center}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.stack>*+*{margin-top:12px}
+
+/* Nachricht der Teamleiterin */
+.msg{display:flex;gap:12px;align-items:flex-start;margin:18px 0}
+.avatar{flex:none;width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700;font-size:15px}
+.bubble{background:#fff;border:1px solid var(--line);border-radius:4px 18px 18px 18px;padding:12px 14px;font-size:15px}
+.bubble b{display:block;font-size:13px;color:var(--muted);font-weight:600;margin-bottom:2px}
+
+/* Startbildschirm */
+.intro-hero{padding:28px 0 8px}
+.clock{font-size:64px;font-weight:300;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.date{color:var(--muted);margin-top:6px}
+.facts{list-style:none;margin:20px 0;border-top:1px solid var(--line)}
+.facts li{padding:11px 0;border-bottom:1px solid var(--line);font-size:15px;display:flex;gap:10px}
+.facts li span:first-child{flex:none;width:22px;text-align:center}
+
+/* Home: Level + Kacheln */
+.level{margin:6px 0 18px}
+.level .name{font-weight:700}
+.track{height:8px;border-radius:8px;background:var(--line);margin-top:8px;overflow:hidden}
+.fill{height:100%;border-radius:8px;background:var(--ink);transition:width .6s ease}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tile{position:relative;aspect-ratio:1/1;border:0;border-radius:26px;padding:16px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;color:#fff;cursor:pointer;overflow:hidden}
+.tile .ico{width:38px;height:38px}
+.tile .t{display:block;font-weight:700;font-size:17px;line-height:1.2}
+.tile .s{display:block;font-size:13px;opacity:.9;margin-top:3px}
+.tile.locked{background:#E3E8EF!important;color:var(--muted);cursor:not-allowed}
+.tile.locked .ico{opacity:.5}
+.tile .badge{position:absolute;top:14px;right:14px;width:26px;height:26px;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center;font-size:15px;font-weight:800}
+.tile.wide{grid-column:1/-1;aspect-ratio:auto;min-height:110px;flex-direction:row;align-items:center;gap:14px;justify-content:flex-start}
+
+/* Bereichsfarben */
+.c-A{background:var(--funk)}.c-B{background:var(--kupfer)}.c-C{background:var(--faser)}.c-D{background:var(--orga)}.c-M{background:var(--mission)}
+.k-A{--k:var(--funk)}.k-B{--k:var(--kupfer)}.k-C{--k:var(--faser)}.k-D{--k:var(--orga)}.k-M{--k:var(--mission)}
+
+/* Kopf innerhalb eines Bereichs */
+.top{display:flex;align-items:center;gap:10px;margin:2px 0 16px}
+.back{flex:none;white-space:nowrap;border:0;background:none;padding:6px 8px 6px 0;font-weight:600;color:var(--muted);cursor:pointer}
+.area{white-space:nowrap}
+.steps{display:flex;gap:5px;flex:1;justify-content:flex-end}
+.steps{min-width:0}
+.steps i{flex:0 1 22px;min-width:6px;height:5px;border-radius:3px;background:var(--line)}
+.steps i.done{background:var(--k)}
+.steps i.now{background:var(--ink)}
+.area{font-size:14px;font-weight:650;color:var(--k)}
+
+/* Infokarte */
+.card{background:#fff;border-radius:22px;border:1px solid var(--line);padding:22px 20px;border-top:6px solid var(--k)}
+.card h2{margin:4px 0 12px}
+.card p{font-size:17px;line-height:1.55}
+
+/* Aufgabe */
+.task-q{font-size:17px;line-height:1.5;margin-bottom:16px}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:13px 15px;cursor:pointer;font-size:15.5px;line-height:1.4}
+.opt+.opt{margin-top:10px}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt.dim{opacity:.55}
+.feedback{margin-top:16px;border-radius:14px;padding:14px 15px;font-size:15px}
+.feedback.ok{background:var(--ok-bg)}
+.feedback.bad{background:var(--bad-bg)}
+.feedback strong{display:block;margin-bottom:4px}
+.plus{display:inline-block;font-weight:800;color:var(--ok);margin-left:6px}
+
+/* Ticket */
+.ticket{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.ticket-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--ink);color:#fff;font-size:14px;font-weight:600}
+.ticket-head .st{background:rgba(255,255,255,.18);padding:2px 9px;border-radius:20px;font-size:12.5px}
+.ticket-body{padding:16px}
+.ticket-text{font-size:15.5px;line-height:1.5;padding-bottom:14px;border-bottom:1px dashed var(--line);margin-bottom:14px}
+.field+.field{margin-top:14px}
+.field label{display:block;font-size:14px;font-weight:650;margin-bottom:6px}
+.field select{width:100%;appearance:none;-webkit-appearance:none;background:#F3F6FA url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%235B6B82' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center;border:1.5px solid var(--line);border-radius:12px;padding:12px 36px 12px 13px;font-size:15px}
+.field.right select{border-color:var(--ok);background-color:var(--ok-bg)}
+.field.wrong select{border-color:var(--bad);background-color:var(--bad-bg)}
+.field .fb{font-size:14px;margin-top:6px}
+.field .fb b{font-weight:700}
+
+/* Abschluss */
+.code{font-size:30px;font-weight:800;letter-spacing:.08em;text-align:center;background:#fff;border:2px dashed var(--ink);border-radius:16px;padding:18px 10px;margin:16px 0;font-variant-numeric:tabular-nums;user-select:all}
+.score{display:flex;gap:12px;margin:18px 0}
+.score div{flex:1;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.score b{display:block;font-size:24px;font-variant-numeric:tabular-nums}
+.toast{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:30px;font-size:14px;font-weight:600;white-space:nowrap;animation:in .25s ease-out}
+
+/* Abzeichen */
+.badges{display:flex;justify-content:space-between;gap:6px;margin:0 0 18px}
+.bdg{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
+.medal{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#E3E8EF;color:var(--muted)}
+.medal .ico{width:24px;height:24px}
+.bdg.has .medal{background:inherit;color:#fff;box-shadow:0 0 0 3px #fff,0 0 0 5px currentColor}
+.bdg.has{background:none!important}
+.bdg.has.c-A .medal{background:var(--funk);box-shadow:0 0 0 3px var(--screen),0 0 0 5px var(--funk)}
+.bdg.has.c-B .medal{background:var(--kupfer);box-shadow:0 0 0 3px var(--screen),0 0 0 5px var(--kupfer)}
+.bdg.has.c-C .medal{background:var(--faser);box-shadow:0 0 0 3px var(--screen),0 0 0 5px var(--faser)}
+.bdg.has.c-D .medal{background:var(--orga);box-shadow:0 0 0 3px var(--screen),0 0 0 5px var(--orga)}
+.bdg.has.c-M .medal{background:var(--mission);box-shadow:0 0 0 3px var(--screen),0 0 0 5px var(--mission)}
+.bn{font-size:11px;line-height:1.2;text-align:center;color:var(--muted);max-width:100%;overflow-wrap:break-word}
+.bdg.has .bn{color:var(--ink);font-weight:650}
+.note{background:#fff;border:1px dashed var(--k,var(--line));border-radius:14px;padding:11px 14px;font-size:14.5px;margin-bottom:14px}
+.link{display:block;margin:18px auto 0;border:0;background:none;color:var(--muted);font-size:14px;text-decoration:underline;cursor:pointer;padding:6px}
+.overlay{position:absolute;inset:0;background:rgba(21,35,59,.45);display:flex;align-items:flex-end;z-index:5}
+.sheet{background:var(--screen);width:100%;max-height:88%;overflow-y:auto;border-radius:24px 24px 0 0;padding:22px 20px 24px;font-size:15px}
+.sheet h2{margin-bottom:8px}
+.sheet h3{font-size:16px;margin:16px 0 6px}
+.sheet .btn{margin-top:18px}
+
+.help{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--ink);background:none;font-weight:800;font-size:13px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.help[hidden]{display:none}
+.toast{bottom:auto!important;top:8px;z-index:6;box-shadow:0 8px 24px -8px rgba(21,35,59,.5)}
+.cards{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:14px}
+.row{display:flex;width:100%;justify-content:space-between;gap:12px;align-items:center;border:0;background:none;padding:13px 15px;text-align:left;font-size:15px;cursor:pointer}
+.row+.row{border-top:1px solid var(--line)}
+.row:hover{background:#F3F6FA}
+.rp{flex:none;font-weight:700;font-variant-numeric:tabular-nums;color:var(--k)}
+.sheet .facts{margin-top:8px}
+</style>
+</head>
+<body>
+<div class="device" id="device">
+  <div class="status" aria-label="Statusleiste">
+    <span id="sbTime">08:30</span>
+    <span class="right">
+      <button class="help" id="helpBtn" aria-label="Hilfe: So funktioniert das Spiel" hidden>?</button>
+      <span class="pts" id="sbPts" aria-label="Punkte">0 P</span>
+      <span class="bars" id="sbBars" aria-label="Fortschritt"><i></i><i></i><i></i><i></i></span>
+    </span>
+  </div>
+  <main id="app" aria-live="polite"></main>
+</div>
+
+<script>
+"use strict";
+const DATA = {
+ "tiles": [
+  {
+   "id": "A",
+   "name": "Mobilfunknetz",
+   "items": [
+    {
+     "id": "A1",
+     "title": "Mobilfunkgenerationen 2G–5G",
+     "text": "Jede Mobilfunkgeneration brachte einen großen Entwicklungsschritt: 2G machte Telefonieren und SMS digital, 3G brachte das schnelle und mobile Internet, 4G (LTE) überträgt alles – auch Telefonate – über das Internetprotokoll (IP), und 5G ermöglicht durch sehr breite Funkkanäle noch höhere Datenraten.",
+     "scenario": {
+      "q": "Dein erster Tag: Eine Kundin fragt, warum ihr altes Handy zwar telefonieren und SMS verschicken, aber kaum ins Internet kann. Das Handy unterstützt nur 2G. Was erklärst du ihr?",
+      "correct": "2G wurde für digitales Telefonieren und SMS entwickelt, schnelles und mobiles Internet kam erst mit 3G",
+      "wrong": [
+       "Ihr Handy ist defekt, denn 2G bietet bereits schnelles Internet",
+       "2G-Handys können das Internet nur über WLAN nutzen",
+       "Ihr Tarif ist zu klein, 2G an sich ist sehr schnell"
+      ]
+     }
+    },
+    {
+     "id": "A2",
+     "title": "Funkzelle und Basisstation",
+     "text": "Eine Basisstation ist die Funktechnik am Mobilfunkmast, die Handys mit dem Netz verbindet. Das Gebiet, das ihre Antennen abdecken, heißt Funkzelle. Meist wird es in zwei bis drei Sektoren aufgeteilt, die jeweils als eigene Zelle zählen.",
+     "scenario": {
+      "q": "Ein Kunde wohnt direkt neben einem Mobilfunkmast und fragt, was die Technik und die Antennen dort oben machen. Was antwortest du?",
+      "correct": "Das ist eine Basisstation, sie verbindet die Handys in der Umgebung per Funk mit dem Netz",
+      "wrong": [
+       "Das ist ein Verstärker für das Fernsehsignal der Region",
+       "Dort werden die Gespräche aller Kunden gespeichert",
+       "Das ist ein Netzknoten, in dem das Backbone endet"
+      ]
+     }
+    },
+    {
+     "id": "A3",
+     "title": "Frequenz vs. Reichweite",
+     "text": "Niedrige Frequenzen reichen weit, können aber weniger Daten übertragen. Hohe Frequenzen übertragen sehr viele Daten, reichen aber nur kurz. Netzbetreiber kombinieren deshalb beide: niedrige Frequenzen für die Fläche, hohe für Orte mit vielen Nutzern.",
+     "scenario": {
+      "q": "Die Netzplanung möchte ein großes, dünn besiedeltes Gebiet auf dem Land mit möglichst wenigen Masten versorgen. Welche Frequenzen eignen sich dafür am besten?",
+      "correct": "Niedrige Frequenzen, weil sie weit reichen",
+      "wrong": [
+       "Hohe Frequenzen, weil sie weit reichen",
+       "Hohe Frequenzen, weil sie die meisten Daten übertragen",
+       "Die Frequenz spielt für die Reichweite keine Rolle"
+      ]
+     }
+    },
+    {
+     "id": "A4",
+     "title": "Handover",
+     "text": "Bewegt man sich während eines Gesprächs aus einer Funkzelle heraus, übergibt das Netz die Verbindung automatisch an die benachbarte Zelle. Dieser Vorgang heißt Handover und sorgt dafür, dass das Gespräch nicht abbricht.",
+     "scenario": {
+      "q": "Ein Kunde pendelt täglich mit dem Zug und fragt, warum seine Telefonate trotz der vielen Funkzellen entlang der Strecke nicht abbrechen. Was erklärst du ihm?",
+      "correct": "Das Netz übergibt das Gespräch automatisch an die jeweils nächste Funkzelle",
+      "wrong": [
+       "Das Handy baut die Verbindung bei jeder Zelle kurz neu auf",
+       "Entlang von Bahnstrecken gibt es eine einzige durchgehende Funkzelle",
+       "Der Zug hat eine eigene Basisstation an Bord"
+      ]
+     }
+    },
+    {
+     "id": "A5",
+     "title": "SIM und Authentifizierung",
+     "text": "Die SIM-Karte weist den Teilnehmer gegenüber dem Netz aus. Auf ihr sind eine weltweit eindeutige Teilnehmerkennung (IMSI) und ein geheimer Schlüssel gespeichert. Damit prüft das Netz, ob die Karte echt und zur Nutzung berechtigt ist (Authentifizierung).",
+     "scenario": {
+      "q": "Ein Kunde hat eine neue SIM-Karte bekommen und fragt, wozu er sie überhaupt braucht, das Handy habe doch eine Antenne. Was antwortest du?",
+      "correct": "Damit weist er sich gegenüber dem Netz aus und wird als berechtigt erkannt",
+      "wrong": [
+       "Auf ihr werden alle Fotos und Kontakte des Handys gesichert",
+       "Sie verstärkt den Empfang der eingebauten Antenne",
+       "Sie legt vor allem fest, welche Mobilfunkgeneration das Handy nutzt"
+      ]
+     }
+    },
+    {
+     "id": "A6",
+     "title": "Kernnetz",
+     "text": "Ein Mobilfunknetz besteht aus zwei Teilen: Das Funknetz verbindet die Handys vor Ort per Funk. Das Kernnetz arbeitet zentral im Hintergrund: Es verwaltet die Teilnehmer, prüft ihre Berechtigung und leitet Gespräche und Daten weiter, zum Beispiel ins Internet.",
+     "scenario": {
+      "q": "Im Netzbetrieb heißt es: „Im Kernnetz gibt es ein Problem.“ Ein Kollege aus dem Vertrieb fragt dich, ob dann nur ein einzelner Mast betroffen ist. Was antwortest du?",
+      "correct": "Wahrscheinlich nicht, denn das Kernnetz arbeitet zentral für sehr viele Teilnehmer",
+      "wrong": [
+       "Ja, das Kernnetz ist die Funktechnik an einem einzelnen Mast",
+       "Ja, das Kernnetz ist die Leitung zum Haus eines Kunden",
+       "Nein, das Kernnetz betrifft nur das Festnetz"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "B",
+   "name": "Festnetz",
+   "items": [
+    {
+     "id": "B1",
+     "title": "Kupfer / DSL",
+     "text": "Bei DSL kommt das Internet über die Kupferleitung des Telefonanschlusses ins Haus. Weil die Signale auf langen Kupferleitungen stark abgeschwächt werden, sinkt die Geschwindigkeit, je weiter der Kunde vom nächsten Verteiler entfernt wohnt.",
+     "scenario": {
+      "q": "Zwei Kunden im selben Ort haben denselben DSL-Tarif. Einer wohnt direkt neben dem Verteiler, der andere am Ortsrand und beschwert sich über langsames Internet. Was ist die wahrscheinlichste Ursache?",
+      "correct": "Seine längere Kupferleitung schwächt das Signal stärker ab",
+      "wrong": [
+       "Am Ortsrand gibt es weniger Funkzellen",
+       "Am Ortsrand teilen sich mehr Haushalte die Bandbreite",
+       "Sein Router ist für diesen Tarif zu neu"
+      ]
+     }
+    },
+    {
+     "id": "B2",
+     "title": "Glasfaser (FTTH)",
+     "text": "FTTH (Fiber to the Home) bedeutet, dass die Glasfaser durchgehend bis ins Wohngebäude reicht. Glasfaser ermöglicht sehr hohe Datenraten, und das Signal wird auch über große Entfernungen kaum schwächer.",
+     "scenario": {
+      "q": "Ein Kunde zieht in einen Neubau, in dem die Glasfaser bis ins Gebäude verlegt ist. Er fragt, was das für ihn bedeutet. Was antwortest du?",
+      "correct": "Er hat einen FTTH-Anschluss und kann sehr hohe Datenraten nutzen",
+      "wrong": [
+       "Er braucht zusätzlich eine Kupferleitung für schnelles Internet",
+       "Seine Geschwindigkeit hängt stark von der Entfernung zum Verteiler ab",
+       "Er teilt sich die Bandbreite mit allen Nachbarn im Straßenzug"
+      ]
+     }
+    },
+    {
+     "id": "B3",
+     "title": "Kabelnetz",
+     "text": "Auch über das Fernsehkabelnetz kommt Internet ins Haus. Alle Haushalte eines Straßenzugs teilen sich dabei die verfügbare Bandbreite („geteiltes Medium“). Sind abends viele gleichzeitig online, kann die Geschwindigkeit für den Einzelnen sinken.",
+     "scenario": {
+      "q": "Ein Kunde mit Internet über das Fernsehkabel meldet: Tagsüber ist das Internet schnell, abends gegen 20 Uhr wird es deutlich langsamer. Was ist die wahrscheinlichste Erklärung?",
+      "correct": "Abends sind viele Nachbarn gleichzeitig online und teilen sich die Bandbreite",
+      "wrong": [
+       "Die Leitung kühlt abends ab und schwächt das Signal stärker",
+       "Abends hat das Fernsehsignal Vorrang und das Internet wird gedrosselt",
+       "Sein Router schaltet abends in einen Energiesparmodus"
+      ]
+     }
+    },
+    {
+     "id": "B4",
+     "title": "Letzte Meile",
+     "text": "Die „letzte Meile“ ist das Leitungsstück zwischen dem nächsten Verteiler des Netzbetreibers und dem Haus des Kunden. Sie ist beim Netzausbau besonders teuer, weil für jeden einzelnen Anschluss gegraben und verlegt werden muss.",
+     "scenario": {
+      "q": "Die Netzplanung erklärt dir, dass der Glasfaserausbau in einem Wohngebiet vor allem auf dem letzten Stück bis zu den Häusern teuer ist. Warum?",
+      "correct": "Für jeden einzelnen Anschluss muss gegraben und eine Leitung verlegt werden",
+      "wrong": [
+       "Auf kurzen Strecken ist Glasfaser teurer als auf langen",
+       "Für das letzte Stück ist zusätzlich eine Richtfunkantenne nötig",
+       "Auf dem letzten Stück wird das Signal am stärksten abgeschwächt"
+      ]
+     }
+    },
+    {
+     "id": "B5",
+     "title": "Hausanschluss und Router",
+     "text": "Am Hausanschluss endet die Leitung des Netzbetreibers im Gebäude. Von dort geht es zum Router des Kunden. Er wandelt das Signal der Leitung um und verteilt die Internetverbindung per WLAN oder Kabel an die Geräte im Haushalt.",
+     "scenario": {
+      "q": "Ein Kunde meldet, dass sein Laptop kein WLAN mehr findet. Ein Techniker hat bestätigt, dass die Leitung bis zum Hausanschluss einwandfrei funktioniert. Welches Gerät sollte als Nächstes geprüft werden?",
+      "correct": "Der Router des Kunden",
+      "wrong": [
+       "Die nächste Basisstation",
+       "Der Verteiler an der Straße",
+       "Das Backbone des Netzbetreibers"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "C",
+   "name": "Transportnetz",
+   "items": [
+    {
+     "id": "C1",
+     "title": "Backbone",
+     "text": "Das Transportnetz verbindet Mobilfunk und Festnetz miteinander und mit dem Internet. Sein Kern ist das Backbone, das „Rückgrat“ des Netzes: Glasfaserleitungen mit sehr hoher Kapazität, die Städte und Regionen verbinden und den gebündelten Datenverkehr über weite Strecken transportieren.",
+     "scenario": {
+      "q": "Im Netzbetrieb wird gemeldet, dass eine Backbone-Leitung zwischen zwei Großstädten gestört ist. Ein neuer Kollege fragt, wie viele und welche Kunden das betreffen kann. Was antwortest du?",
+      "correct": "Sehr viele, denn dort läuft der gebündelte Verkehr vieler Kunden",
+      "wrong": [
+       "Einige wenige, denn es betrifft die letzte Meile einer Straße",
+       "Viele Mobilfunkkunden, denn das Backbone transportiert nur Handydaten",
+       "Viele Kabelkunden, denn das Backbone gehört zum Fernsehnetz"
+      ]
+     }
+    },
+    {
+     "id": "C2",
+     "title": "Glasfaser vs. Richtfunk",
+     "text": "Mobilfunkstandorte müssen an das Netz angebunden werden. Am leistungsfähigsten ist Glasfaser. Wo das Verlegen zu teuer oder zu aufwendig ist, etwa auf dem Land, wird der Standort per Richtfunk angebunden: eine gebündelte Funkstrecke zwischen zwei Antennen mit Sichtverbindung.",
+     "scenario": {
+      "q": "Auf einem abgelegenen Berg soll schnell ein neuer Mobilfunkmast in Betrieb gehen. Die nächste Glasfaser liegt viele Kilometer entfernt im Tal, zum Tal besteht freie Sicht. Wie wird der Mast am ehesten angebunden?",
+      "correct": "Per Richtfunk zu einer Antenne im Tal",
+      "wrong": [
+       "Per Glasfaser, die kurzfristig auf den Berg verlegt wird",
+       "Per Kupferleitung des Telefonnetzes",
+       "Gar nicht, ein Mast braucht keine Anbindung an das Netz"
+      ]
+     }
+    },
+    {
+     "id": "C3",
+     "title": "Netzknoten und Rechenzentren",
+     "text": "In Netzknoten laufen viele Leitungen zusammen. Dort wird der Datenverkehr gebündelt und zu seinem Ziel weitergeleitet (Routing).",
+     "scenario": {
+      "q": "In einem Ticket steht: „Netzknoten Frankfurt-Süd ausgefallen.“ Ein Kollege fragt, warum das so kritisch ist. Was antwortest du?",
+      "correct": "Dort laufen viele Leitungen zusammen und der Verkehr wird weitergeleitet",
+      "wrong": [
+       "Dort ist der Router eines einzelnen Kunden betroffen",
+       "Dort steht die Funktechnik eines einzelnen Mastes",
+       "Dort werden die SIM-Karten der Region verwaltet"
+      ]
+     }
+    },
+    {
+     "id": "C4",
+     "title": "Redundanz und Ausfallsicherheit",
+     "text": "Wichtige Verbindungen werden doppelt oder als Ring gebaut. Wird eine Leitung beschädigt, etwa durch einen Bagger, leitet das Netz den Verkehr automatisch über den anderen Weg um. So bemerken Kunden den Ausfall oft gar nicht.",
+     "scenario": {
+      "q": "Bei Bauarbeiten hat ein Bagger eine wichtige Glasfaserleitung durchtrennt. Trotzdem ruft kaum ein Kunde an. Woran liegt das wahrscheinlich?",
+      "correct": "Die Verbindung ist doppelt oder als Ring gebaut, der Verkehr wurde automatisch umgeleitet",
+      "wrong": [
+       "Glasfaser funktioniert auch durchtrennt noch eine Zeit lang weiter",
+       "Der Datenverkehr wird bis zur Reparatur zwischengespeichert",
+       "Die Kunden werden automatisch auf das Fernsehkabelnetz umgeschaltet"
+      ]
+     }
+    },
+    {
+     "id": "C5",
+     "title": "Netzüberwachung",
+     "text": "Das Netz wird rund um die Uhr zentral überwacht, im Network Operations Center (NOC). Netzelemente melden Fehler automatisch als Alarm. So werden Störungen oft erkannt, bevor Kunden sie bemerken, und ihre Behebung wird eingeleitet.",
+     "scenario": {
+      "q": "Nachts um 4 Uhr fällt eine Basisstation aus. Noch hat kein Kunde angerufen. Wer bemerkt den Ausfall wahrscheinlich zuerst?",
+      "correct": "Das NOC, denn die Station meldet automatisch einen Alarm",
+      "wrong": [
+       "Der Kundenservice, sobald die ersten Kunden anrufen",
+       "Die Netzplanung, bei der nächsten Ausbauplanung",
+       "Der Vertrieb, bei der nächsten Abrechnung"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "D",
+   "name": "Organisation",
+   "items": [
+    {
+     "id": "D1",
+     "title": "Zentrale Abteilungen",
+     "text": "Ein Telekommunikationsunternehmen ist in Bereiche gegliedert: Die Netzplanung plant den Ausbau, der Netzbetrieb hält das Netz am Laufen und behebt Störungen, die IT betreibt die internen IT-Systeme wie das Ticketsystem, der Vertrieb verkauft Tarife und der Kundenservice ist erste Anlaufstelle für Kunden.",
+     "scenario": {
+      "q": "Dein erster Tag: Deine Teamleiterin möchte wissen, welche Abteilung festlegt, wo im nächsten Jahr neue Masten gebaut werden. Was antwortest du?",
+      "correct": "Die Netzplanung",
+      "wrong": [
+       "Der Netzbetrieb",
+       "Der Vertrieb",
+       "Der Kundenservice"
+      ]
+     }
+    },
+    {
+     "id": "D2",
+     "title": "Zuständigkeiten",
+     "text": "Kunden melden sich zuerst beim Kundenservice. Kann er ein Problem nicht selbst lösen, leitet er es als Ticket weiter: Netzstörungen an den Netzbetrieb, Probleme mit internen Systemen an die IT, Fragen zu Verträgen und Tarifen an den Vertrieb.",
+     "scenario": {
+      "q": "Ein Kunde fragt beim Kundenservice, ob er vorzeitig in einen größeren Tarif wechseln kann. Der Kundenservice kann das nicht selbst klären. An wen geht das Ticket?",
+      "correct": "An den Vertrieb",
+      "wrong": [
+       "An den Netzbetrieb",
+       "An die IT",
+       "An die Netzplanung"
+      ]
+     }
+    },
+    {
+     "id": "D3",
+     "title": "Störungs- / Ticketprozess",
+     "text": "Jede Meldung wird als Ticket erfasst und eingeordnet: Eine Störung (Incident) ist eine Unterbrechung oder Beeinträchtigung eines Dienstes und wird schnellstmöglich behoben. Eine Serviceanfrage (Service Request) ist ein normaler Kundenwunsch, etwa ein Tarifwechsel.",
+     "scenario": {
+      "q": "Eine Kundin meldet, dass sie seit heute Morgen kein Internet mehr hat. Wie wird ihre Meldung im Ticketsystem eingeordnet?",
+      "correct": "Als Störung (Incident)",
+      "wrong": [
+       "Als Serviceanfrage (Service Request)",
+       "Als Tarifwechsel",
+       "Als Vertragskündigung"
+      ]
+     }
+    },
+    {
+     "id": "D4",
+     "title": "Typische Abkürzungen",
+     "text": "Drei Abkürzungen hört man ab dem ersten Tag: SLA (Service Level Agreement) ist eine vertraglich festgelegte Metrik z.B. die vereinbarte Frist, in der ein Ticket bearbeitet sein muss. NOC ist die Netzüberwachungszentrale. RAN (Radio Access Network) ist das Funknetz.",
+     "scenario": {
+      "q": "In einem Ticket steht: „SLA läuft in 2 Stunden ab.“ Was bedeutet das?",
+      "correct": "Die vereinbarte Frist zur Bearbeitung des Tickets endet bald",
+      "wrong": [
+       "Die SIM-Karte des Kunden wird in 2 Stunden gesperrt",
+       "Das Funknetz wird in 2 Stunden gewartet",
+       "Der Vertrag des Kunden endet in 2 Stunden"
+      ]
+     }
+    }
+   ]
+  }
+ ],
+ "tickets": [
+  {
+   "id": "T1",
+   "type": "Typ 1: Meldung → Ticket ausfüllen",
+   "text": "Kundenmeldung: „Seit heute Morgen hat in ganz Musterdorf niemand mehr Handyempfang. In den Nachbarorten funktioniert alles.“",
+   "fields": [
+    {
+     "name": "Netzbereich",
+     "options": [
+      "Festnetz",
+      "Mobilfunknetz",
+      "Transportnetz",
+      "IT-Systeme"
+     ],
+     "correct": 1,
+     "lid": "A2",
+     "feedback": "Kein Handyempfang betrifft das Mobilfunknetz. Fällt er in einem ganzen Ort aus, ist wahrscheinlich eine Basisstation betroffen, die dieses Gebiet als Funkzelle versorgt."
+    },
+    {
+     "name": "Ticketart",
+     "options": [
+      "Störung (Incident)",
+      "Serviceanfrage (Service Request)",
+      "Beschwerde",
+      "Kündigung"
+     ],
+     "correct": 0,
+     "lid": "D3",
+     "feedback": "Ein Dienst ist unterbrochen. Das ist eine Störung (Incident), die schnellstmöglich behoben werden muss."
+    },
+    {
+     "name": "Zuständige Gruppe",
+     "options": [
+      "Vertrieb",
+      "Netzplanung",
+      "IT",
+      "Netzbetrieb"
+     ],
+     "correct": 3,
+     "lid": "D1",
+     "feedback": "Netzstörungen gehen an den Netzbetrieb. Er hält das Netz am Laufen und behebt Störungen."
+    }
+   ]
+  },
+  {
+   "id": "T2",
+   "type": "Typ 1: Meldung → Ticket ausfüllen",
+   "text": "Kundenmeldung: „Ich bin in einen Neubau gezogen, in dem die Glasfaser bis ins Haus verlegt ist. Ich möchte meinen DSL-Vertrag auf diesen Glasfaseranschluss umstellen.“",
+   "fields": [
+    {
+     "name": "Netzbereich",
+     "options": [
+      "Mobilfunknetz",
+      "IT-Systeme",
+      "Festnetz",
+      "Transportnetz"
+     ],
+     "correct": 2,
+     "lid": "B2",
+     "feedback": "DSL und Glasfaser bis ins Haus (FTTH) sind Anschlüsse im Festnetz."
+    },
+    {
+     "name": "Ticketart",
+     "options": [
+      "Störung (Incident)",
+      "Kündigung",
+      "Beschwerde",
+      "Serviceanfrage (Service Request)"
+     ],
+     "correct": 3,
+     "lid": "D3",
+     "feedback": "Hier ist nichts kaputt. Der Kunde hat einen normalen Wunsch, also eine Serviceanfrage (Service Request)."
+    },
+    {
+     "name": "Zuständige Gruppe",
+     "options": [
+      "Vertrieb",
+      "Netzbetrieb",
+      "IT",
+      "Netzplanung"
+     ],
+     "correct": 0,
+     "lid": "D2",
+     "feedback": "Fragen zu Verträgen und Tarifen leitet der Kundenservice an den Vertrieb weiter."
+    }
+   ]
+  },
+  {
+   "id": "T3",
+   "type": "Typ 1: Meldung → Ticket ausfüllen",
+   "text": "Automatisch erzeugtes Ticket des NOC: „Alarm: Backbone-Glasfaserleitung zwischen den Netzknoten Köln und Düsseldorf unterbrochen, vermutlich durch Bauarbeiten. Der Verkehr läuft vorerst über den Ersatzweg.“",
+   "fields": [
+    {
+     "name": "Netzbereich",
+     "options": [
+      "Transportnetz",
+      "Festnetz",
+      "Mobilfunknetz",
+      "IT-Systeme"
+     ],
+     "correct": 0,
+     "lid": "C1",
+     "feedback": "Das Backbone verbindet Städte und Regionen und gehört zum Transportnetz. Dank des Ersatzwegs (Redundanz) merken Kunden vom Ausfall meist nichts."
+    },
+    {
+     "name": "Ticketart",
+     "options": [
+      "Serviceanfrage (Service Request)",
+      "Störung (Incident)",
+      "Kündigung",
+      "Beschwerde"
+     ],
+     "correct": 1,
+     "lid": "D3",
+     "feedback": "Eine Leitung ist ausgefallen. Auch wenn der Verkehr umgeleitet wird, ist das eine Störung (Incident): Bis zur Reparatur gibt es keinen Ersatzweg mehr."
+    },
+    {
+     "name": "Zuständige Gruppe",
+     "options": [
+      "IT",
+      "Vertrieb",
+      "Netzbetrieb",
+      "Netzplanung"
+     ],
+     "correct": 2,
+     "lid": "D1",
+     "feedback": "Störungen im Netz behebt der Netzbetrieb."
+    }
+   ]
+  },
+  {
+   "id": "T4",
+   "type": "Typ 1: Meldung → Ticket ausfüllen",
+   "text": "Meldung einer Kollegin aus dem Kundenservice: „Seit dem Update heute Morgen lässt sich das Ticketsystem nicht mehr öffnen. Wir können keine neuen Tickets anlegen.“",
+   "fields": [
+    {
+     "name": "Netzbereich",
+     "options": [
+      "Festnetz",
+      "Transportnetz",
+      "Mobilfunknetz",
+      "IT-Systeme"
+     ],
+     "correct": 3,
+     "lid": "D1",
+     "feedback": "Das Ticketsystem ist ein internes System. Es wird von der IT betrieben und gehört nicht zum Netz für die Kunden."
+    },
+    {
+     "name": "Ticketart",
+     "options": [
+      "Beschwerde",
+      "Störung (Incident)",
+      "Serviceanfrage (Service Request)",
+      "Kündigung"
+     ],
+     "correct": 1,
+     "lid": "D3",
+     "feedback": "Ein Dienst funktioniert nicht mehr. Das ist eine Störung, auch wenn es ein internes System betrifft."
+    },
+    {
+     "name": "Zuständige Gruppe",
+     "options": [
+      "Netzbetrieb",
+      "Netzplanung",
+      "IT",
+      "Vertrieb"
+     ],
+     "correct": 2,
+     "lid": "D2",
+     "feedback": "Probleme mit internen Systemen gehen an die IT."
+    }
+   ]
+  },
+  {
+   "id": "T5",
+   "type": "Typ 2: Ticket → Lösung wählen",
+   "text": "Ticket: „Meldungen aus allen Regionen: Kunden können seit 10 Uhr weder telefonieren noch mobil surfen. Laut NOC funken alle Basisstationen normal, die Handys zeigen vollen Empfang.“",
+   "fields": [
+    {
+     "name": "Wahrscheinliche Ursache",
+     "options": [
+      "Eine einzelne Basisstation ist ausgefallen",
+      "Die Kupferleitungen der Kunden sind zu lang",
+      "Ein Problem im zentralen Kernnetz",
+      "Die Haushalte teilen sich zu wenig Bandbreite"
+     ],
+     "correct": 2,
+     "lid": "A6",
+     "feedback": "Das Funknetz arbeitet, denn die Handys haben Empfang. Wenn trotzdem bundesweit nichts geht, liegt das Problem im Kernnetz, das zentral die Teilnehmer verwaltet und Gespräche und Daten weiterleitet."
+    },
+    {
+     "name": "Nächster Schritt",
+     "options": [
+      "Der Netzbetrieb prüft das Kernnetz",
+      "Techniker fahren zu allen Basisstationen",
+      "Der Vertrieb bietet neue Tarife an",
+      "Die Netzplanung baut zusätzliche Masten"
+     ],
+     "correct": 0,
+     "lid": "D1",
+     "feedback": "Das Kernnetz gehört zum Netz und ist gestört. Zuständig ist der Netzbetrieb. Die Basisstationen funktionieren ja, dort hilft kein Techniker."
+    }
+   ]
+  },
+  {
+   "id": "T6",
+   "type": "Typ 2: Ticket → Lösung wählen",
+   "text": "Ticket: „Mast Berghof ist seit gestern ohne Verbindung zum Netz. Er ist per Richtfunk an eine Gegenstelle im Tal angebunden, die Technik am Mast ist in Ordnung. Hinweis vom Außendienst: Zwischen Mast und Gegenstelle wurde gerade ein neues Bürogebäude fertiggestellt.“",
+   "fields": [
+    {
+     "name": "Wahrscheinliche Ursache",
+     "options": [
+      "Die SIM-Karten am Mast sind abgelaufen",
+      "Das Gebäude unterbricht die Sichtverbindung",
+      "Im Gebäude teilen sich zu viele Nutzer die Bandbreite",
+      "Die Kupferleitung zum Mast ist zu lang"
+     ],
+     "correct": 1,
+     "lid": "C2",
+     "feedback": "Richtfunk braucht freie Sicht zwischen den beiden Antennen. Das neue Gebäude steht genau dazwischen und unterbricht die Verbindung."
+    },
+    {
+     "name": "Nächster Schritt",
+     "options": [
+      "Die Antenne am Mast stärker einstellen",
+      "Den Mast mit neuen SIM-Karten ausstatten",
+      "Den Kunden im Ort DSL-Tarife anbieten",
+      "Eine Funkstrecke mit freier Sicht einrichten"
+     ],
+     "correct": 3,
+     "lid": "C2",
+     "feedback": "Ohne Sichtverbindung hilft auch mehr Sendeleistung nicht. Die Funkstrecke muss über einen anderen Standort mit freier Sicht geführt werden."
+    }
+   ]
+  }
+ ]
+};
+const COMPANY = "VETO-Fiber";            // fiktiver Unternehmensname
+const MENTOR = {name:"Sarah", role:"Teamleiterin", initial:"S"};
+const POINTS = 10, RETRY_POINTS = 5;      // 1. Versuch / 2. Versuch, danach 0
+const BADGE_SHARE = 0.8;                  // Abzeichen ab 80 % der Bereichspunkte
+const STORE = "erster-tag-v3";
+const LEGAL = {
+  name: "Leon A. Stamm",
+  mail: "Leon.stamm@iu-study.org",
+  host: "GitHub Pages (GitHub Inc., USA)"
+};
+const BADGES = {
+  A:{name:"Funkwelle"}, B:{name:"Anschluss"}, C:{name:"Rückgrat"}, D:{name:"Teamplayer"}, M:{name:"Ticket-Profi"}
+};
+
+const ICONS = {
+  A:'<svg class="ico" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 22v14"/><circle cx="20" cy="18" r="3" fill="currentColor"/><path d="M13 11a10 10 0 0 0 0 14M27 11a10 10 0 0 1 0 14M8 6a17 17 0 0 0 0 24M32 6a17 17 0 0 1 0 24"/></svg>',
+  B:'<svg class="ico" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M7 19 20 8l13 11v13H7z"/><path d="M2 36h8c4 0 4-6 10-6"/><path d="M17 32v-7h6v7"/></svg>',
+  C:'<svg class="ico" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="8" cy="10" r="3.5"/><circle cx="32" cy="10" r="3.5"/><circle cx="8" cy="30" r="3.5"/><circle cx="32" cy="30" r="3.5"/><circle cx="20" cy="20" r="4"/><path d="M11 12l6 5M29 12l-6 5M11 28l6-5M29 28l-6-5M11.5 10h17M11.5 30h17"/></svg>',
+  D:'<svg class="ico" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="6" y="12" width="28" height="21" rx="3"/><path d="M15 12V8h10v4M6 21h28"/><path d="M18 21v3h4v-3"/></svg>',
+  M:'<svg class="ico" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M6 10h28v6a4 4 0 0 0 0 8v6H6v-6a4 4 0 0 0 0-8z"/><path d="M15 16h10M15 24h7"/></svg>',
+  lock:'<svg class="ico" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="10" y="18" width="20" height="15" rx="3"/><path d="M14 18v-4a6 6 0 0 1 12 0v4"/></svg>'
+};
+
+/* ---------- Zustand ---------- */
+let S = load() || fresh();
+function fresh(){
+  return {seed: Math.random().toString(36).slice(2,10), started:null, finished:null, replays:0,
+          round:{}, cur:{}, best:{}, ever:{}, badges:[], tkRound:1, tkCur:{}, tkBest:{}, missionDone:false, view:{name:"intro"}};
+}
+function load(){ try{ const s = sessionStorage.getItem(STORE); return s ? JSON.parse(s) : null; }catch(e){ return null; } }
+function save(){ try{ sessionStorage.setItem(STORE, JSON.stringify(S)); }catch(e){} }
+
+/* ---------- Hilfen ---------- */
+const $app = document.getElementById("app");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+function shuffle(arr, seed){ // Fisher-Yates mit FNV-1a-Hash und Mulberry32 (gleichmäßig verteilt)
+  let h = 2166136261 >>> 0;
+  for (const ch of seed){ h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }
+  const rnd = () => { h = (h + 0x6D2B79F5) >>> 0; let t = h; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  const a = arr.slice();
+  for (let i=a.length-1;i>0;i--){ const j = Math.floor(rnd() * (i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+const ITEM = {}; DATA.tiles.forEach(t => t.items.forEach(it => ITEM[it.id] = it));
+const award = tries => tries === 0 ? POINTS : tries === 1 ? RETRY_POINTS : 0;
+const cur = id => (S.cur[id] = S.cur[id] || {tries:0, solved:false, wrong:[], earned:0});
+const solvedNow = id => !!(S.cur[id] && S.cur[id].solved);
+const roundDone = t => t.items.every(it => solvedNow(it.id));
+const everDone = t => t.items.every(it => S.ever[it.id]);
+const tileUnlocked = i => i === 0 || everDone(DATA.tiles[i-1]);
+const allTilesEver = () => DATA.tiles.every(everDone);
+const tileMax = t => t.items.length * POINTS;
+const tilePts = t => t.items.reduce((n,it)=>n+(S.best[it.id]||0),0);
+const threshold = max => Math.ceil(max * BADGE_SHARE);
+const tkMax = () => DATA.tickets.reduce((n,k)=>n+k.fields.length,0) * POINTS;
+const tkPts = () => DATA.tickets.reduce((n,k)=>n+(S.tkBest[k.id]||[]).reduce((a,b)=>a+b,0),0);
+const totalPts = () => DATA.tiles.reduce((n,t)=>n+tilePts(t),0) + tkPts();
+const maxPoints = () => DATA.tiles.reduce((n,t)=>n+tileMax(t),0) + tkMax();
+function levels(){ const m = maxPoints(); return [[0,"Neu im Team"],[Math.round(m*.25),"Auf dem richtigen Weg"],[Math.round(m*.5),"Netzkenner:in"],[Math.round(m*.75),"Netz-Profi"],[m,"Senior Engineer"]]; }
+function level(){ let l = levels()[0]; for (const x of levels()) if (totalPts() >= x[0]) l = x; return l; }
+function nextLevel(){ return levels().find(x => x[0] > totalPts()); }
+function tkCur(tk){
+  if (!S.tkCur[tk.id]) S.tkCur[tk.id] = {tries:tk.fields.map(()=>0), solved:tk.fields.map(()=>false), sel:tk.fields.map(()=>-1), wrong:tk.fields.map(()=>[]), earned:tk.fields.map(()=>0)};
+  return S.tkCur[tk.id];
+}
+const ticketDone = tk => !!S.tkCur[tk.id] && S.tkCur[tk.id].solved.every(Boolean);
+const allTicketsDone = () => DATA.tickets.every(ticketDone);
+function checkBadge(key, pts, max){
+  if (S.badges.includes(key) || pts < threshold(max)) return false;
+  S.badges.push(key); return true;
+}
+
+function go(view){ S.view = view; save(); render(); $app.scrollTop = 0; }
+let toastQ = Promise.resolve();
+function toast(text){
+  toastQ = toastQ.then(() => new Promise(res => {
+    const t = document.createElement("div"); t.className = "toast"; t.setAttribute("role","status"); t.textContent = text;
+    document.getElementById("device").appendChild(t);
+    setTimeout(()=>{ t.remove(); res(); }, 2400);
+  }));
+}
+function scrollToEl(id){ const el = document.getElementById(id); if (el) el.scrollIntoView({block:"end", behavior: reduced() ? "auto" : "smooth"}); }
+function status(){
+  document.getElementById("sbPts").textContent = totalPts() + " P";
+  const n = DATA.tiles.filter(everDone).length;
+  document.querySelectorAll("#sbBars i").forEach((b,i)=>b.classList.toggle("on", i < n));
+  const mins = S.started ? Math.floor(((S.finished || Date.now()) - S.started)/60000) : 0;
+  const m = 30 + mins; document.getElementById("sbTime").textContent = String(8+Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0");
+}
+setInterval(status, 15000);
+
+function badgeRow(){
+  const keys = [...DATA.tiles.map(t=>t.id), "M"];
+  return `<div class="badges" aria-label="Abzeichen">${keys.map(k => {
+    const has = S.badges.includes(k);
+    return `<div class="bdg ${has?"has c-"+k:""}"><span class="medal">${has?ICONS[k]:ICONS.lock}</span><span class="bn">${esc(BADGES[k].name)}</span></div>`;
+  }).join("")}</div>`;
+}
+
+/* ---------- Hilfe, Impressum, Datenschutz ---------- */
+function rulesHtml(){
+  const nItems = DATA.tiles.reduce((n,t)=>n+t.items.length,0);
+  return `<ul class="facts">
+    <li><span>⏱</span><span>Dauer: etwa 15 bis 20 Minuten. Bitte bearbeite alles am Stück.</span></li>
+    <li><span>📇</span><span>${nItems} kurze Infokarten in vier Bereichen, nach jeder Karte eine Praxisaufgabe.</span></li>
+    <li><span>⭐</span><span>Richtig im ersten Versuch: ${POINTS} Punkte, im zweiten Versuch: ${RETRY_POINTS} Punkte. Bei einer falschen Antwort bekommst du eine Erinnerung und versuchst es noch einmal.</span></li>
+    <li><span>🔓</span><span>Der nächste Bereich öffnet sich, wenn du alle Aufgaben im aktuellen Bereich gelöst hast. Zum Schluss wartet die Mission mit deinen ersten Tickets.</span></li>
+    <li><span>🏅</span><span>Ein Abzeichen bekommst du, wenn du in einem Bereich mindestens ${Math.round(BADGE_SHARE*100)} % der Punkte erreichst.</span></li>
+    <li><span>🔁</span><span>Abgeschlossene Bereiche kannst du jederzeit noch einmal lesen oder neu spielen. Es zählt immer dein bestes Ergebnis. Mit voller Punktzahl (${maxPoints()}) erreichst du das Level „Senior Engineer“.</span></li>
+    <li><span>🔑</span><span>Nach der Mission tippst du auf „Fertig“. Danach erhältst du deinen Code für den Fragebogen, und das Spiel ist beendet. Bis dahin kannst du so oft wiederholen, wie du möchtest.</span></li>
+  </ul>`;
+}
+function sheet(title, body){
+  const o = document.createElement("div"); o.className = "overlay"; o.setAttribute("role","dialog"); o.setAttribute("aria-modal","true"); o.setAttribute("aria-label",title);
+  o.innerHTML = `<div class="sheet"><h2>${title}</h2>${body}<button class="btn" id="closeSheet">Schließen</button></div>`;
+  document.getElementById("device").appendChild(o);
+  const close = () => o.remove();
+  o.querySelector("#closeSheet").onclick = close;
+  o.addEventListener("click", e => { if (e.target === o) close(); });
+  o.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+  o.querySelector("#closeSheet").focus({preventScroll:true});
+}
+function openHelp(){ sheet("So funktioniert dein erster Tag", rulesHtml()); }
+function openLegal(){
+  sheet("Impressum und Datenschutz", `
+    <h3>Impressum</h3>
+    <p>Diese Seite ist Teil einer wissenschaftlichen Studie im Rahmen einer Bachelorarbeit an der IU Internationale Hochschule. Sie verfolgt keine kommerziellen Zwecke.</p>
+    <p>Verantwortlich: ${esc(LEGAL.name)}<br>Kontakt: ${esc(LEGAL.mail)}</p>
+    <p>Das Unternehmen „${esc(COMPANY)}“ und alle genannten Personen sind frei erfunden. Ähnlichkeiten mit realen Unternehmen sind nicht beabsichtigt.</p>
+    <h3>Datenschutz</h3>
+    <p>Dieses Spiel erhebt keine personenbezogenen Daten und sendet deine Eingaben an niemanden. Es lädt keine Inhalte von anderen Anbietern und verwendet kein Tracking.</p>
+    <p>Dein Spielstand wird nur vorübergehend in deinem Browser gespeichert, damit er beim Neuladen nicht verloren geht. Er wird gelöscht, sobald du den Tab schließt.</p>
+    <p>Beim Aufruf der Seite verarbeitet der Hosting-Anbieter (${esc(LEGAL.host)}) technisch bedingt deine IP-Adresse, um die Seite auszuliefern. Weitere Informationen findest du in der Datenschutzerklärung zu Beginn des Fragebogens.</p>`);
+}
+document.getElementById("helpBtn").onclick = openHelp;
+
+/* ---------- Ansichten ---------- */
+function render(){
+  status();
+  document.getElementById("helpBtn").hidden = S.view.name === "intro";
+  const v = S.view;
+  if (S.locked) return viewEnd();
+  if (v.name === "intro") return viewIntro();
+  if (v.name === "home") return viewHome();
+  if (v.name === "tile") return viewTile(v.t);
+  if (v.name === "card") return viewCard(v.t, v.i);
+  if (v.name === "task") return viewTask(v.t, v.i);
+  if (v.name === "mission") return viewMission();
+  if (v.name === "ticket") return viewTicket(v.k);
+  if (v.name === "end") return viewEnd();
+}
+
+function viewIntro(){
+  $app.innerHTML = `<section class="screen">
+    <div class="intro-hero">
+      <div class="clock">08:30</div>
+      <div class="date">Montag, dein erster Arbeitstag</div>
+    </div>
+    <div class="msg"><div class="avatar">${MENTOR.initial}</div>
+      <div class="bubble"><b>${MENTOR.name}, ${MENTOR.role}</b>
+      Willkommen bei ${esc(COMPANY)}! Heute lernst du in vier Bereichen kennen, wie unser Netz funktioniert und wie wir zusammenarbeiten. Zum Schluss bearbeitest du deine ersten Tickets.</div></div>
+    ${rulesHtml()}
+    <p class="muted small" style="margin:-6px 0 16px">Diese Erklärung findest du jederzeit wieder über das Fragezeichen oben rechts.</p>
+    <button class="btn" id="go">Arbeitstag beginnen</button>
+    <button class="link" id="legal">Impressum und Datenschutz</button>
+  </section>`;
+  document.getElementById("go").onclick = () => { S.started = Date.now(); go({name:"home"}); };
+  document.getElementById("legal").onclick = openLegal;
+}
+
+function mentorHint(){
+  const anyProgress = Object.keys(S.cur).length > 0;
+  if (!anyProgress) return `Fang mit dem Bereich ${DATA.tiles[0].name} an. Wenn du dort alle Aufgaben gelöst hast, öffnet sich der nächste Bereich.`;
+  const c = DATA.tiles.findIndex(t => !everDone(t));
+  if (c >= 0){
+    const t = DATA.tiles[c], solved = t.items.filter(it => S.ever[it.id]).length, rest = t.items.length - solved;
+    const touched = t.items.some(it => S.cur[it.id]);
+    if (c > 0 && !touched){
+      const prev = DATA.tiles[c-1];
+      const b = S.badges.includes(prev.id) ? `Klasse, du hast das Abzeichen „${BADGES[prev.id].name}“ verdient! ` : `Gut gemacht! Für das Abzeichen „${BADGES[prev.id].name}“ kannst du den Bereich später noch einmal spielen. `;
+      return b + `Der Bereich ${t.name} ist jetzt freigeschaltet.`;
+    }
+    return `Mach im Bereich ${t.name} weiter. Dort ${rest === 1 ? "fehlt noch 1 Aufgabe" : `fehlen noch ${rest} von ${t.items.length} Aufgaben`}.`;
+  }
+  if (!S.missionDone){
+    const open = DATA.tickets.filter(k => !ticketDone(k)).length;
+    return `Alle vier Bereiche geschafft! Jetzt ${open === DATA.tickets.length ? `warten ${open} Tickets` : `fehlen noch ${open} Tickets`} auf dich.`;
+  }
+  return totalPts() >= maxPoints()
+    ? "Volle Punktzahl, du bist jetzt Senior Engineer! Tippe auf „Fertig“, um deinen Code zu erhalten."
+    : "Alles erledigt! Du kannst Bereiche noch einmal spielen, um mehr Punkte zu holen. Wenn du fertig bist, tippe auf „Fertig“.";
+}
+
+function viewHome(){
+  const [, lname] = level(); const nl = nextLevel(); const pts = totalPts();
+  const pct = Math.round(pts / maxPoints() * 100);
+  const tiles = DATA.tiles.map((t,i) => {
+    const open = tileUnlocked(i), done = everDone(t), inRound = !roundDone(t) && t.items.some(it => S.cur[it.id]);
+    const solved = t.items.filter(it => solvedNow(it.id)).length;
+    const sub = !open ? "Noch gesperrt"
+      : inRound || !done ? (solved ? `${solved} von ${t.items.length} gelöst` : `${t.items.length} Karten`)
+      : `${tilePts(t)} von ${tileMax(t)} Punkten`;
+    return `<button class="tile c-${t.id} ${open?"":"locked"}" data-t="${i}" ${open?"":"disabled aria-disabled=true"} aria-label="${esc(t.name)}: ${sub}">
+      ${done?'<span class="badge" aria-hidden="true">✓</span>':""}
+      ${open?ICONS[t.id]:ICONS.lock}
+      <span><span class="t">${esc(t.name)}</span><span class="s">${sub}</span></span></button>`;
+  }).join("");
+  const mOpen = allTilesEver();
+  const ticketsDone = DATA.tickets.filter(ticketDone).length;
+  const mSub = !mOpen ? "Öffnet sich, wenn alle vier Bereiche gelöst sind"
+    : S.missionDone && allTicketsDone() ? `${tkPts()} von ${tkMax()} Punkten`
+    : ticketsDone ? `${ticketsDone} von ${DATA.tickets.length} Tickets gelöst` : `${DATA.tickets.length} Tickets warten auf dich`;
+  $app.innerHTML = `<section class="screen">
+    <div class="msg" style="margin-top:4px"><div class="avatar">${MENTOR.initial}</div><div class="bubble"><b>${MENTOR.name}</b>${mentorHint()}</div></div>
+    ${S.missionDone ? `<button class="btn" id="toCode" style="margin-bottom:18px">Fertig</button>` : ""}
+    <div class="level"><span class="name">${lname}</span> <span class="muted small">${pts} von ${maxPoints()} Punkten${nl?`, nächstes Level ab ${nl[0]}`:""}</span>
+      <div class="track" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:${pct}%"></div></div></div>
+    ${badgeRow()}
+    <div class="grid">${tiles}
+      <button class="tile wide ${mOpen?"c-M":"locked"}" id="mission" ${mOpen?"":"disabled aria-disabled=true"}>
+        ${mOpen?ICONS.M:ICONS.lock}<span><span class="t">Mission: Dein erstes Ticket</span><span class="s">${mSub}</span></span></button>
+    </div>
+    <button class="link" id="legal">Impressum und Datenschutz</button></section>`;
+  $app.querySelectorAll(".tile[data-t]").forEach(b => b.onclick = () => {
+    const t = +b.dataset.t, tile = DATA.tiles[t];
+    if (roundDone(tile)) return go({name:"tile", t});
+    let i = tile.items.findIndex(it => !solvedNow(it.id)); if (i < 0) i = 0;
+    go({name:"card", t, i});
+  });
+  const m = document.getElementById("mission");
+  if (mOpen) m.onclick = () => {
+    if (allTicketsDone()) return go({name:"mission"});
+    let k = DATA.tickets.findIndex(x => !ticketDone(x)); if (k < 0) k = 0; go({name:"ticket", k});
+  };
+  const tc = document.getElementById("toCode"); if (tc) tc.onclick = confirmFinish;
+  document.getElementById("legal").onclick = openLegal;
+}
+
+function header(t, i, label){
+  const tile = DATA.tiles[t];
+  const steps = tile.items.map((it,j) => `<i class="${solvedNow(it.id)?"done":(j===i?"now":"")}"></i>`).join("");
+  return `<div class="top"><button class="back" id="back">‹ Übersicht</button><span class="area">${esc(label || tile.name)}</span>
+    ${i >= 0 ? `<span class="steps" aria-label="Karte ${i+1} von ${tile.items.length}">${steps}</span>` : ""}</div>`;
+}
+
+/* Bereichsübersicht nach einer abgeschlossenen Runde */
+function viewTile(t){
+  const tile = DATA.tiles[t], pts = tilePts(tile), max = tileMax(tile), thr = threshold(max), has = S.badges.includes(tile.id);
+  $app.innerHTML = `<section class="screen k-${tile.id}">${header(t,-1)}
+    <h1 style="margin:4px 0 6px">${esc(tile.name)}</h1>
+    <p class="muted">${pts} von ${max} Punkten. ${has ? `Abzeichen „${BADGES[tile.id].name}“ erhalten.` : `Abzeichen „${BADGES[tile.id].name}“ ab ${thr} Punkten.`}</p>
+    <div class="cards">${tile.items.map((it,i)=>`<button class="row" data-i="${i}"><span>${esc(it.title)}</span><span class="rp">${S.best[it.id]||0}/${POINTS}</span></button>`).join("")}</div>
+    <p class="muted small" style="margin:10px 0 18px">Tippe auf eine Karte, um sie noch einmal zu lesen.</p>
+    <div class="stack">
+      ${pts < max ? `<button class="btn" id="replay">Bereich neu spielen</button>` : `<p class="note">Volle Punktzahl in diesem Bereich!</p>`}
+      <button class="btn ghost" id="home">Zurück zur Übersicht</button></div></section>`;
+  document.getElementById("back").onclick = () => go({name:"home"});
+  document.getElementById("home").onclick = () => go({name:"home"});
+  $app.querySelectorAll(".row").forEach(b => b.onclick = () => go({name:"card", t, i:+b.dataset.i}));
+  const r = document.getElementById("replay");
+  if (r) r.onclick = () => {
+    tile.items.forEach(it => delete S.cur[it.id]);
+    S.round[tile.id] = (S.round[tile.id] || 1) + 1; S.replays++;
+    go({name:"card", t, i:0});
+  };
+}
+
+function viewCard(t, i){
+  const tile = DATA.tiles[t], it = tile.items[i], done = solvedNow(it.id), last = i === tile.items.length - 1;
+  const label = done ? (last ? "Zur Bereichsübersicht" : "Nächste Karte") : "Zur Praxisaufgabe";
+  $app.innerHTML = `<section class="screen k-${tile.id}">${header(t,i)}
+    <article class="card"><div class="muted small">Karte ${i+1} von ${tile.items.length}</div>
+      <h2>${esc(it.title)}</h2><p>${esc(it.text)}</p></article>
+    <div class="stack" style="margin-top:18px"><button class="btn" id="next">${label}</button></div></section>`;
+  document.getElementById("back").onclick = () => go({name:"home"});
+  document.getElementById("next").onclick = () => !done ? go({name:"task", t, i}) : last ? go({name:"tile", t}) : go({name:"card", t, i:i+1});
+}
+
+function viewTask(t, i){
+  const tile = DATA.tiles[t], it = tile.items[i], sc = it.scenario, c = cur(it.id);
+  const opts = shuffle([{txt:sc.correct, ok:true}, ...sc.wrong.map(w=>({txt:w, ok:false}))], S.seed + it.id + (S.round[tile.id] || 1));
+  const last = i === tile.items.length - 1;
+  const lastWrong = !c.solved && c.wrong.length > 0;
+  $app.innerHTML = `<section class="screen k-${tile.id}">${header(t,i)}
+    <div class="msg" style="margin-top:0"><div class="avatar">${MENTOR.initial}</div><div class="bubble"><b>Praxisaufgabe${lastWrong ? `, Versuch ${c.tries+1}` : ""}</b>${esc(sc.q)}</div></div>
+    <div id="opts">${opts.map((o,j)=>{
+      let cls = "opt", dis = c.solved;
+      if (c.solved) cls += o.ok ? " right" : " dim";
+      else if (c.wrong.includes(j)){ cls += " wrong"; dis = true; }
+      return `<button class="${cls}" data-j="${j}" ${dis?"disabled":""}>${esc(o.txt)}</button>`; }).join("")}</div>
+    <div id="fb">${c.solved ? `<div class="feedback ok"><strong>Richtig!${c.earned?`<span class="plus">+${c.earned}</span>`:""}</strong>${esc(it.text)}</div>`
+      : lastWrong ? `<div class="feedback bad"><strong>Das stimmt noch nicht. Versuch es noch einmal.</strong>Zur Erinnerung: ${esc(it.text)}</div>` : ""}</div>
+    <div class="stack" style="margin-top:18px">${c.solved ? `<button class="btn" id="next">${last ? "Zur Bereichsübersicht" : "Nächste Karte"}</button>` : ""}</div></section>`;
+  document.getElementById("back").onclick = () => go({name:"home"});
+  if (!c.solved){
+    $app.querySelectorAll(".opt:not([disabled])").forEach(b => b.onclick = () => {
+      const j = +b.dataset.j;
+      if (opts[j].ok){
+        const tileBefore = everDone(tile), allBefore = allTilesEver();
+        c.solved = true; c.earned = award(c.tries);
+        S.best[it.id] = Math.max(S.best[it.id] || 0, c.earned); S.ever[it.id] = true;
+        const gotBadge = roundDone(tile) && checkBadge(tile.id, tilePts(tile), tileMax(tile));
+        const unlocked = t+1 < DATA.tiles.length && !tileBefore && everDone(tile);
+        const missionUnlocked = !allBefore && allTilesEver();
+        save(); viewTask(t, i); status(); scrollToEl("next");
+        if (gotBadge) toast(`🏅 Abzeichen erhalten: ${BADGES[tile.id].name}`);
+        if (unlocked) toast(`🔓 Freigeschaltet: ${DATA.tiles[t+1].name}`);
+        else if (missionUnlocked) toast("🔓 Freigeschaltet: Mission");
+        if (roundDone(tile) && !gotBadge && !S.badges.includes(tile.id)) toast(`Für das Abzeichen fehlen noch ${threshold(tileMax(tile)) - tilePts(tile)} Punkte`);
+      } else {
+        c.tries += 1; c.wrong.push(j);
+        save(); viewTask(t, i); scrollToEl("fb");
+      }
+    });
+  } else {
+    document.getElementById("next").onclick = () => last ? go({name:"tile", t}) : go({name:"card", t, i:i+1});
+  }
+}
+
+/* Missionsübersicht nach einer abgeschlossenen Runde */
+function viewMission(){
+  const pts = tkPts(), max = tkMax(), has = S.badges.includes("M");
+  $app.innerHTML = `<section class="screen k-M">
+    <div class="top"><button class="back" id="back">‹ Übersicht</button><span class="area">Mission</span></div>
+    <h1 style="margin:4px 0 6px">Dein erstes Ticket</h1>
+    <p class="muted">${pts} von ${max} Punkten. ${has ? `Abzeichen „${BADGES.M.name}“ erhalten.` : `Abzeichen „${BADGES.M.name}“ ab ${threshold(max)} Punkten.`}</p>
+    <div class="stack" style="margin-top:18px">
+      ${pts < max ? `<button class="btn" id="replay">Mission neu spielen</button>` : `<p class="note">Volle Punktzahl in der Mission!</p>`}
+      <button class="btn ghost" id="toCode">Fertig</button>
+      <button class="btn ghost" id="home">Zurück zur Übersicht</button></div></section>`;
+  document.getElementById("back").onclick = () => go({name:"home"});
+  document.getElementById("home").onclick = () => go({name:"home"});
+  document.getElementById("toCode").onclick = confirmFinish;
+  const r = document.getElementById("replay");
+  if (r) r.onclick = () => { S.tkCur = {}; S.tkRound++; S.replays++; go({name:"ticket", k:0}); };
+}
+
+function viewTicket(k){
+  const tk = DATA.tickets[k], st = tkCur(tk), done = ticketDone(tk);
+  const anyTry = st.tries.some(n => n > 0);
+  const fields = tk.fields.map((f,fi) => {
+    const ok = st.solved[fi], bad = !ok && st.wrong[fi].length > 0, ref = ITEM[f.lid];
+    const sel = ok ? f.correct : st.sel[fi];
+    let fb = "";
+    if (ok) fb = `<div class="fb"><b>Richtig${st.earned[fi]?`, +${st.earned[fi]}`:""}.</b> ${esc(f.feedback)}</div>`;
+    else if (bad) fb = `<div class="fb"><b>Das stimmt noch nicht.</b> ${ref ? `Zur Erinnerung aus der Karte „${esc(ref.title)}“: ${esc(ref.text)}` : "Überlege noch einmal."}</div>`;
+    return `<div class="field ${ok?"right":bad?"wrong":""}"><label for="f${fi}">${esc(f.name)}</label>
+      <select id="f${fi}" data-fi="${fi}" ${ok?"disabled":""}><option value="-1" ${sel<0?"selected":""} disabled>Bitte auswählen</option>
+        ${f.options.map((o,oi)=>`<option value="${oi}" ${sel===oi?"selected":""} ${st.wrong[fi].includes(oi)?"disabled":""}>${esc(o)}${st.wrong[fi].includes(oi)?" (falsch)":""}</option>`).join("")}</select>${fb}</div>`;
+  }).join("");
+  const last = k === DATA.tickets.length - 1;
+  const kind = tk.type.startsWith("Typ 2") ? "Lies das Ticket und wähle Ursache und nächsten Schritt." : "Lies die Meldung und fülle das Ticket aus.";
+  $app.innerHTML = `<section class="screen k-M">
+    <div class="top"><button class="back" id="back">‹ Übersicht</button><span class="area">Mission</span>
+      <span class="steps">${DATA.tickets.map((x,j)=>`<i class="${ticketDone(x)?"done":(j===k?"now":"")}"></i>`).join("")}</span></div>
+    <p class="muted small" style="margin-bottom:10px">${kind}</p>
+    <div class="ticket"><div class="ticket-head"><span>Ticket #${String(4710+k)}</span><span class="st">${done?"Gelöst":anyTry?"In Bearbeitung":"Neu"}</span></div>
+      <div class="ticket-body"><div class="ticket-text">${esc(tk.text)}</div>${fields}</div></div>
+    <div class="stack" style="margin-top:18px">${done
+      ? `<button class="btn" id="next">${last?"Zur Missionsübersicht":"Nächstes Ticket"}</button>`
+      : `<button class="btn" id="send" disabled>${anyTry?"Korrigiertes Ticket absenden":"Ticket absenden"}</button>`}</div></section>`;
+  document.getElementById("back").onclick = () => go({name:"home"});
+  if (!done){
+    const sels = [...$app.querySelectorAll("select:not([disabled])")], send = document.getElementById("send");
+    const ready = () => sels.every(s => { const fi = +s.dataset.fi, v = +s.value; return v >= 0 && !st.wrong[fi].includes(v); });
+    send.disabled = !ready();
+    sels.forEach(s => s.onchange = () => { st.sel[+s.dataset.fi] = +s.value; save(); send.disabled = !ready(); });
+    send.onclick = () => {
+      if (!S.tkBest[tk.id]) S.tkBest[tk.id] = tk.fields.map(()=>0);
+      sels.forEach(s => {
+        const fi = +s.dataset.fi, v = +s.value, f = tk.fields[fi];
+        if (v === f.correct){ st.solved[fi] = true; st.earned[fi] = award(st.tries[fi]); S.tkBest[tk.id][fi] = Math.max(S.tkBest[tk.id][fi], st.earned[fi]); }
+        else { st.tries[fi] += 1; st.wrong[fi].push(v); st.sel[fi] = -1; }
+      });
+      let gotBadge = false;
+      if (allTicketsDone()){ S.missionDone = true; gotBadge = checkBadge("M", tkPts(), tkMax()); }
+      save(); viewTicket(k); status();
+      scrollToEl(ticketDone(tk) ? "next" : "send");
+      if (gotBadge) toast(`🏅 Abzeichen erhalten: ${BADGES.M.name}`);
+      else if (allTicketsDone() && !S.badges.includes("M")) toast(`Für das Abzeichen fehlen noch ${threshold(tkMax()) - tkPts()} Punkte`);
+    };
+  } else {
+    document.getElementById("next").onclick = () => last ? go({name:"mission"}) : go({name:"ticket", k:k+1});
+  }
+}
+
+/* Abschlusscode: SP-MM-PPP-W-X
+   MM = Minuten bis zur letzten Code-Anzeige, PPP = Punkte (bestes Ergebnis), W = Anzahl Wiederholungen (max. 9), X = Prüfbuchstabe */
+function finishCode(){
+  const mins = Math.min(99, Math.max(0, Math.round((S.finished - S.started)/60000)));
+  const pts = totalPts(), w = Math.min(9, S.replays);
+  const chk = String.fromCharCode(65 + ((mins*7 + pts*3 + w*5 + 11) % 26));
+  return `SP-${String(mins).padStart(2,"0")}-${String(pts).padStart(3,"0")}-${w}-${chk}`;
+}
+function confirmFinish(){
+  const o = document.createElement("div"); o.className = "overlay"; o.setAttribute("role","dialog"); o.setAttribute("aria-modal","true"); o.setAttribute("aria-label","Arbeitstag beenden");
+  o.innerHTML = `<div class="sheet"><h2>Arbeitstag beenden?</h2>
+    <p>Du hast ${totalPts()} von ${maxPoints()} Punkten. Wenn du auf „Ja, fertig“ tippst, erhältst du deinen Code für den Fragebogen. Danach kannst du nicht mehr ins Spiel zurück.</p>
+    <div class="stack" style="margin-top:16px"><button class="btn" id="yes">Ja, fertig</button><button class="btn ghost" id="no">Weiterspielen</button></div></div>`;
+  document.getElementById("device").appendChild(o);
+  o.querySelector("#no").onclick = () => o.remove();
+  o.querySelector("#yes").onclick = () => { S.finished = Date.now(); S.locked = true; save(); o.remove(); render(); $app.scrollTop = 0; };
+  o.addEventListener("keydown", e => { if (e.key === "Escape") o.remove(); });
+  o.querySelector("#yes").focus({preventScroll:true});
+}
+function viewEnd(){
+  const mins = Math.round((S.finished - S.started)/60000), pts = totalPts();
+  $app.innerHTML = `<section class="screen">
+    <h1 style="margin-top:14px">Geschafft! Dein erster Tag ist vorbei.</h1>
+    <div class="msg"><div class="avatar">${MENTOR.initial}</div><div class="bubble"><b>${MENTOR.name}</b>${pts >= maxPoints() ? "Volle Punktzahl, willkommen als Senior Engineer!" : "Du hast heute viel über unser Netz und unsere Abläufe gelernt. Willkommen im Team!"}</div></div>
+    <div class="score"><div><span class="muted small">Punkte</span><b>${pts}</b></div><div><span class="muted small">Level</span><b style="font-size:17px;line-height:1.4">${level()[1]}</b></div></div>
+    ${badgeRow()}
+    <p><strong>Bitte kehre jetzt zum Fragebogen zurück</strong> und gib dort diesen Code ein:</p>
+    <div class="code" id="code">${finishCode()}</div>
+    <p class="muted small">Bearbeitungszeit: etwa ${mins} ${mins===1?"Minute":"Minuten"}. </p>
+    <p class="muted small" style="margin-top:6px">Das Spiel ist jetzt beendet. Du kannst dieses Fenster nach der Eingabe schließen.</p>
+  </section>`;
+  status();
+  document.getElementById("helpBtn").hidden = true;
+}
+
+render();
+</script>
+</body>
+</html>
