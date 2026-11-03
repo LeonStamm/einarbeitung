@@ -1,0 +1,2 @@
+# einarbeitung
+Studienmaterial Bachelorarbeit 
