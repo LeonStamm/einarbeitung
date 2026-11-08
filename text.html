@@ -10,7 +10,7 @@
 *{box-sizing:border-box}
 body{margin:0;background:#fff;color:var(--ink);font-family:Calibri,Carlito,"Segoe UI",Arial,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
 .wrap{max-width:720px;margin:0 auto;padding:28px 20px 48px}
-h1{font-size:28px;line-height:1.2;margin:0 0 6px}
+h1{font-size:28px;line-height:1.2;margin:0 0 6px;padding-right:44px}
 h2{font-size:22px;margin:36px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--ink)}
 h3{font-size:18px;margin:22px 0 4px}
 p{margin:0 0 10px}
@@ -39,9 +39,35 @@ details{margin-top:22px;color:var(--muted);font-size:15px} summary{cursor:pointe
 .dialog{background:#fff;border-radius:16px;padding:22px;max-width:420px;width:100%}
 .dialog .btn+.btn{margin-top:10px}
 [hidden]{display:none!important}
+.help{position:fixed;top:12px;right:12px;z-index:4;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--ink);background:#fff;color:var(--ink);font:inherit;font-weight:800;font-size:17px;line-height:1;cursor:pointer;display:grid;place-items:center;box-shadow:0 2px 8px rgba(27,43,69,.18)}
+.help:focus-visible{outline:3px solid #2F5FA8;outline-offset:2px}
+.link{display:block;margin:20px auto 0;border:0;background:none;color:var(--muted);font:inherit;font-size:15px;text-decoration:underline;cursor:pointer;padding:6px}
+.overlay{z-index:10}
+.sheetwrap{align-items:flex-end;padding:0}
+.sheet{background:#fff;width:100%;max-width:720px;max-height:88vh;overflow-y:auto;border-radius:20px 20px 0 0;padding:22px 20px 24px;font-size:16px}
+.sheet h2{font-size:22px;margin:0 0 6px}
+.sheet h3{font-size:17px;margin:18px 0 6px}
+.sheet .btn{margin-top:20px}
 </style>
 </head>
 <body>
+<button class="help" id="helpBtn" type="button" aria-label="Hilfe, Impressum und Datenschutz" hidden>?</button>
+<template id="helpTpl">
+  <h3>So funktioniert's</h3>
+  <ol class="steps">
+    <li>Lies den Text in Ruhe von Anfang bis Ende durch. Bitte bearbeite alles am Stück.</li>
+    <li>Wenn du fertig bist, tippe ganz unten auf „Fertig“.</li>
+    <li>Danach erhältst du einen Code für den Fragebogen. Der Text ist dann nicht mehr sichtbar.</li>
+  </ol>
+  <h3>Impressum</h3>
+  <p>Diese Seite ist Teil einer wissenschaftlichen Studie im Rahmen einer Bachelorarbeit an der IU Internationale Hochschule. Sie verfolgt keine kommerziellen Zwecke.</p>
+  <p>Verantwortlich: Leon A. Stamm<br>Kontakt: Leon.stamm@iu-study.org</p>
+  <p>Das Unternehmen „VETO-Fiber“ und alle genannten Personen sind frei erfunden. Ähnlichkeiten mit realen Unternehmen sind nicht beabsichtigt.</p>
+  <h3>Datenschutz</h3>
+  <p>Diese Seite erhebt keine personenbezogenen Daten und sendet deine Eingaben an niemanden. Sie lädt keine Inhalte von anderen Anbietern und verwendet kein Tracking.</p>
+  <p>Dein Fortschritt wird nur vorübergehend in deinem Browser gespeichert, damit er beim Neuladen nicht verloren geht. Er wird gelöscht, sobald du den Tab schließt.</p>
+  <p>Beim Aufruf der Seite verarbeitet der Hosting-Anbieter (GitHub Pages, GitHub Inc., USA) technisch bedingt deine IP-Adresse, um die Seite auszuliefern. Weitere Informationen findest du in der Datenschutzerklärung zu Beginn des Fragebogens.</p>
+</template>
 <main class="wrap">
 
 <section id="start" hidden>
@@ -54,11 +80,7 @@ details{margin-top:22px;color:var(--muted);font-size:15px} summary{cursor:pointe
     <li>Danach erhältst du einen Code für den Fragebogen. Der Text ist dann nicht mehr sichtbar.</li>
   </ol>
   <button class="btn" id="begin" style="margin-top:22px">Lesen beginnen</button>
-  <details><summary>Impressum und Datenschutz</summary>
-    <p style="margin-top:10px">Diese Seite ist Teil einer wissenschaftlichen Studie im Rahmen einer Bachelorarbeit an der IU Internationale Hochschule. Sie verfolgt keine kommerziellen Zwecke. Verantwortlich: Leon A. Stamm, Kontakt: Leon.stamm@iu-study.org</p>
-    <p>Das Unternehmen „VETO-Fiber“ und alle genannten Personen sind frei erfunden. Ähnlichkeiten mit realen Unternehmen sind nicht beabsichtigt.</p>
-    <p>Diese Seite erhebt keine personenbezogenen Daten, lädt keine Inhalte von anderen Anbietern und verwendet kein Tracking. Dein Fortschritt wird nur vorübergehend in deinem Browser gespeichert und beim Schließen des Tabs gelöscht. Beim Aufruf verarbeitet der Hosting-Anbieter (GitHub Pages, GitHub Inc., USA) technisch bedingt deine IP-Adresse. Weitere Informationen findest du in der Datenschutzerklärung zu Beginn des Fragebogens.</p>
-  </details>
+  <button class="link" id="legalStart" type="button">Impressum und Datenschutz</button>
 </section>
 
 <section id="doc" hidden>
@@ -183,7 +205,25 @@ function show(id){
   if (id === "done") document.getElementById("code").textContent = code();
   window.scrollTo(0,0);
 }
-function render(){ show(S.finished ? "done" : S.started ? "doc" : "start"); }
+function render(){
+  const v = S.finished ? "done" : S.started ? "doc" : "start";
+  show(v);
+  document.getElementById("helpBtn").hidden = v !== "doc";
+}
+function openSheet(title){
+  const o = document.createElement("div"); o.className = "overlay sheetwrap"; o.setAttribute("role","dialog"); o.setAttribute("aria-modal","true"); o.setAttribute("aria-label", title);
+  o.innerHTML = '<div class="sheet"><h2></h2>' + document.getElementById("helpTpl").innerHTML + '<button class="btn" id="closeSheet" type="button">Schließen</button></div>';
+  o.querySelector("h2").textContent = title;
+  document.body.appendChild(o);
+  document.body.style.overflow = "hidden";
+  const close = () => { o.remove(); document.body.style.overflow = ""; };
+  o.querySelector("#closeSheet").onclick = close;
+  o.addEventListener("click", e => { if (e.target === o) close(); });
+  o.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+  o.querySelector("#closeSheet").focus({preventScroll:true});
+}
+document.getElementById("helpBtn").onclick = () => openSheet("Hilfe, Impressum und Datenschutz");
+document.getElementById("legalStart").onclick = () => openSheet("Hilfe, Impressum und Datenschutz");
 document.getElementById("begin").onclick = () => { S.started = Date.now(); save(); render(); };
 document.getElementById("finish").onclick = () => {
   const o = document.createElement("div"); o.className = "overlay"; o.setAttribute("role","dialog"); o.setAttribute("aria-modal","true");
