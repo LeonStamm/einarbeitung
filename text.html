@@ -39,6 +39,7 @@ details{margin-top:22px;color:var(--muted);font-size:15px} summary{cursor:pointe
 .dialog{background:#fff;border-radius:16px;padding:22px;max-width:420px;width:100%}
 .dialog .btn+.btn{margin-top:10px}
 [hidden]{display:none!important}
+.next{padding-left:20px;margin:6px 0 12px}.next li{margin-bottom:4px}
 .help{position:fixed;top:12px;right:12px;z-index:4;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--ink);background:#fff;color:var(--ink);font:inherit;font-weight:800;font-size:17px;line-height:1;cursor:pointer;display:grid;place-items:center;box-shadow:0 2px 8px rgba(27,43,69,.18)}
 .help:focus-visible{outline:3px solid #2F5FA8;outline-offset:2px}
 .link{display:block;margin:20px auto 0;border:0;background:none;color:var(--muted);font:inherit;font-size:15px;text-decoration:underline;cursor:pointer;padding:6px}
@@ -184,9 +185,16 @@ details{margin-top:22px;color:var(--muted);font-size:15px} summary{cursor:pointe
 
 <section id="done" hidden>
   <h1>Vielen Dank!</h1>
-  <p><strong>Bitte kehre jetzt zum Fragebogen zurück</strong> und gib dort diesen Code ein:</p>
+  <p><strong>Dein Code für den Fragebogen:</strong></p>
   <div class="code" id="code"></div>
-  <p class="meta">Du kannst dieses Fenster danach schließen.</p>
+  <button class="btn" id="backBtn" type="button">Code kopieren und zurück zum Fragebogen</button>
+  <p class="meta" id="copyMsg" aria-live="polite" style="margin-top:10px"></p>
+  <p style="margin-top:14px"><strong>So geht es weiter:</strong></p>
+  <ol class="next">
+      <li>Tippe auf „Code kopieren und zurück zum Fragebogen“.</li>
+      <li>Tippe im Fragebogen auf „Weiter“.</li>
+      <li>Füge den Code in das Feld ein (lange auf das Feld tippen, dann „Einfügen“).</li>
+    </ol>
 </section>
 
 </main>
@@ -202,7 +210,7 @@ function code(){
 }
 function show(id){
   for (const s of ["start","doc","done"]) document.getElementById(s).hidden = s !== id;
-  if (id === "done") document.getElementById("code").textContent = code();
+  if (id === "done") { document.getElementById("code").textContent = code(); wireBack(code()); }
   window.scrollTo(0,0);
 }
 function render(){
@@ -233,6 +241,25 @@ document.getElementById("finish").onclick = () => {
   o.querySelector("#yes").onclick = () => { S.finished = Date.now(); save(); o.remove(); render(); };
   o.querySelector("#yes").focus();
 };
+async function copyText(txt){
+  try { await navigator.clipboard.writeText(txt); return true; } catch(e) {}
+  try {
+    const t = document.createElement("textarea"); t.value = txt; t.setAttribute("readonly","");
+    t.style.position = "fixed"; t.style.top = "0"; t.style.opacity = "0"; document.body.appendChild(t);
+    t.select(); t.setSelectionRange(0, 99); const ok = document.execCommand("copy"); t.remove(); return ok;
+  } catch(e) { return false; }
+}
+function wireBack(code){
+  const b = document.getElementById("backBtn"), m = document.getElementById("copyMsg");
+  b.onclick = async () => {
+    const ok = await copyText(code);
+    if (!ok) { m.textContent = "Das Kopieren hat leider nicht geklappt. Bitte merke dir den Code oder schreib ihn ab und wechsle dann über die Tab-Übersicht deines Browsers zurück zum Fragebogen."; return; }
+    b.textContent = "Code kopiert ✓";
+    m.textContent = "Falls sich dieser Tab nicht von selbst schließt, wechsle bitte über die Tab-Übersicht deines Browsers zurück zum Fragebogen.";
+    setTimeout(() => { try { window.close(); } catch(e) {} }, 800);
+  };
+}
+
 render();
 </script>
 </body>
